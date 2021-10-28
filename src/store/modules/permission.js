@@ -96,7 +96,7 @@ function filterAsyncRouter(asyncRouterMap) {
     }
     if (route.children != null && route.children && route.children.length) {
       route.children = filterAsyncRouter(route.children)
-    }else{
+    }else if (route.children != null && route.children.length == 0){
       route.children = []
     }
     return true
@@ -105,6 +105,7 @@ function filterAsyncRouter(asyncRouterMap) {
 }
 
 const loadView = (view) => {
+  console.log("view", view);
   return (resolve) => require([`@/views/${view}/index`], resolve)
 }
 
@@ -131,7 +132,7 @@ const actions = {
             // accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
           // }
 
-          // console.log(accessedRoutes);
+          console.log(accessedRoutes);
           commit('SET_ROUTES', accessedRoutes)
           resolve(accessedRoutes)
         }

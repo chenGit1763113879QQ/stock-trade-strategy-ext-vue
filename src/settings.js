@@ -1,5 +1,5 @@
 module.exports = {
-  title: '股票策略交易盯盘系统',
+  title: 'XX系统',
 
   /**
    * @type {boolean} true | false

@@ -89,8 +89,23 @@ export const constantRoutes = [
         name: 'Dashboard',
         meta: { title: '首页', icon: 'dashboard', affix: false }
       }
+     
     ]
   },
+  // {
+  //   path: '/s',
+  //   component: Layout,
+  //   redirect: '/stock',
+  //   children: [
+     
+  //     {
+  //       path: 'stock',
+  //       component: () => import('@/views/stock/index'),
+  //       name: 'Stock',
+  //       meta: { title: '股池', icon: 'guide', affix: false }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/documentation',
   //   component: Layout,
