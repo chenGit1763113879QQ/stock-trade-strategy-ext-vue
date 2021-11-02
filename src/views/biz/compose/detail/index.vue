@@ -31,13 +31,15 @@
 <script>
 
 import stockList from "./stockList.vue";
-import planList from "./planList.vue";
+import gridPlanList from "./gridPlanList.vue";
+import dayPlanList from "./dayPlanList.vue";
 import tradeList from "./tradeList.vue";
 
 export default {
   components: {
     stockList: stockList,
-    planList: planList,
+    gridPlanList: gridPlanList,
+    dayPlanList: dayPlanList,
     tradeList: tradeList,
   },
   data() {
@@ -51,9 +53,15 @@ export default {
           close: false,
         },
         {
-          title: "区间套利",
-          name: "planList",
-          content: planList,
+          title: "网格区间套利",
+          name: "gridPlanList",
+          content: gridPlanList,
+          close: false,
+        },
+        {
+          title: "TO日内套利",
+          name: "dayPlanList",
+          content: dayPlanList,
           close: false,
         },
         {

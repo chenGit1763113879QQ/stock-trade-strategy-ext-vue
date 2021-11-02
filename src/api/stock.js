@@ -16,6 +16,15 @@ export function getStockList(params) {
     })
 }
 
+
+export function getStockSimpleList(params) {
+  return request({
+    url: '/compose/stock/item/simpleList',
+    method: 'get',
+    params: params
+  })
+}
+
 export function searchStock(params) {
     return request({
       url: '/stock/common/queryPageByKey',

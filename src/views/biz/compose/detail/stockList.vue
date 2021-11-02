@@ -8,6 +8,7 @@
         class="demo-form-inline"
       >
 
+     
         <el-form-item>
           <el-button type="primary" @click="handleQuery">查询</el-button>
         </el-form-item>
@@ -39,26 +40,37 @@
           {{ scope.row.stockName }} ({{ scope.row.stockCode }}) 
         </template>
       </el-table-column>
-     
+      
+      <el-table-column align="center" label="现价">
+        <template slot-scope="scope">
+          {{ scope.row.curPrice }} 
+        </template>
+      </el-table-column>
+       <el-table-column align="center" label="涨跌">
+        <template slot-scope="scope">
+         <span :class="getTextPriceClass(scope.row.updown)"> {{ scope.row.updown }}({{ scope.row.percent }}%)</span>
+        </template>
+      </el-table-column>
+    
       <el-table-column align="center" label="市值" width="160">
         <template slot-scope="scope">
           {{ scope.row.capital }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="数量">
+      <el-table-column align="center" label="持仓">
         <template slot-scope="scope">
           {{ scope.row.stockNumber }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="现价/成本价">
+      <el-table-column align="center" label="成本价">
         <template slot-scope="scope">
-          {{ scope.row.curPrice }}  / {{ scope.row.costPrice }}
+          {{ scope.row.costPrice }}
         </template>
       </el-table-column>
-
     <el-table-column align="center" label="盈亏">
         <template slot-scope="scope">
-          {{ scope.row.profitMoney }} / {{ scope.row.profitPercent }}
+          <span :class="getTextPriceClass(scope.row.profitMoney)"> {{ scope.row.profitMoney }}({{ scope.row.profitPercent }}%)</span>
+          <!-- {{ scope.row.profitMoney }} / {{ scope.row.profitPercent }} -->
         </template>
       </el-table-column>
 <!-- 
@@ -76,7 +88,7 @@
 
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleDetail(scope.row)"
+          <el-button type="text" size="small" @click="handleTrade(scope.row)"
             >交易</el-button>
          
         </template>
@@ -164,10 +176,12 @@ import {
   getStockList,searchStock,tradeStockItem 
 } from "@/api/stock";
 
+
 export default {
   data() {
     return {
       dataList: [],
+     
       listLoading: true,
       pageInfo: {
         pageNum: 1,
@@ -186,8 +200,8 @@ export default {
       ],
       composeId:"", 
       queryParams: {
-        name: ""
-   
+
+        name:""
       },
       dialogFormVisible: false,
 
@@ -251,9 +265,9 @@ export default {
   },
   async created() {
     this._queryParams = _.cloneDeep(this.queryParams);
-    console.log(this._queryParams);
+    // console.log(this._queryParams);
     this.composeId = this.$route.query.composeId
-    console.log(this.composeId)
+    console.log("composeId",this.composeId)
     this.getList(1, 10);
   },
   mounted(){
@@ -327,16 +341,17 @@ export default {
 
     },
 
-    handleTrade() {
+    handleTrade(data) {
       this.open = true;
       // this.$nextTick(() => {
       //   this.resetForm();
       // });
+    
       this.form = {
-        composeId: undefined,
-        stockCode: undefined,
-        stockName: undefined,
-        actionPrice: undefined,
+        composeId: this.composeId,
+        stockCode: data ? data.stockCode : undefined,
+        stockName: data ? data.stockName : undefined,
+        actionPrice: data ? data.curPrice : undefined,
         actionNumber: 100,
         action: "0",
       };
@@ -355,10 +370,13 @@ export default {
           let data = {
             ...this.form
           }
+          console.log(data);
           data.composeId = this.composeId;
           let arr = data.stockCode.split("(");
-          data.stockCode = arr[1].replace(")","");
-          data.stockName = arr[0];
+          if(arr.length > 1){
+             data.stockCode = arr[1].replace(")","");
+             data.stockName = arr[0];
+          }
  
           this.doTrade(data);
           this.open = false;

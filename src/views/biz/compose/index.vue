@@ -62,7 +62,7 @@
       </el-table-column>
       <el-table-column align="center" label="总市值(CNY)">
         <template slot-scope="scope">
-          <span class="getTextPriceClass(scope.row.profitMoney)"> {{ scope.row.capital }}</span>
+          <span :class="getTextPriceClass(scope.row.profitMoney)"> {{ scope.row.capital }}</span>
         </template>
       </el-table-column>
      <el-table-column align="center" label="当前仓位">
@@ -72,7 +72,7 @@
       </el-table-column>
        <el-table-column align="center" label="浮动盈亏">
         <template slot-scope="scope">
-          <span class="getTextPriceClass(scope.row.profitMoney)"> {{ scope.row.profitMoney }}({{ scope.row.profitPercent }}%)</span>
+          <span :class="getTextPriceClass(scope.row.profitMoney)"> {{ scope.row.profitMoney }}({{ scope.row.profitPercent }}%)</span>
         </template>
       </el-table-column>
 
@@ -264,8 +264,9 @@ export default {
   },
   methods: {
     getTextPriceClass(price){
+        console.log("price:", price)
         if(!price || price == 0) return "text-normal";
-
+       
         return price > 0 ? "text-red" : "text-green";
     },
     resetForm() {
