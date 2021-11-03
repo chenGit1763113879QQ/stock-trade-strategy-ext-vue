@@ -14,6 +14,11 @@
         <el-form-item style="margin-left: 20px">
           <el-button type="primary" @click="handleTrade">新建计划</el-button>
         </el-form-item>
+
+        
+        <el-form-item style="margin-left: 20px">
+          <el-button type="primary" @click="handleNotifyMail">修改通知邮件</el-button>
+        </el-form-item>
       </el-form>
 
       
@@ -23,6 +28,8 @@
     累计获利（元）：<span :class="getTextPriceClass(summaryProfit)" style="margin-right:30px">{{ summaryProfit }}</span>
 
     交易计划：<span>{{ pageInfo.runningStatus }}/{{ pageInfo.total }}</span>
+
+    <span style="margin-left:30px;color:red;font-size:14px" >注：启动计划后，执行套利交易时会通过个人信息中的邮件进行通知，请在操作前设置好个人邮件。</span>
   </div>
     <el-table
       v-loading="listLoading"
@@ -103,8 +110,10 @@
 
       <el-table-column fixed="right" label="操作" >
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleDetail(scope.row)"
-            >详情</el-button>
+          <!-- <el-button type="text" size="small" @click="handleDetail(scope.row)"
+            >详情</el-button> -->
+            <!-- <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleUpdate(scope.row)"
+            >修改参数</el-button> -->
             <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleStart(scope.row)"
             >启动计划</el-button>
             <el-button v-if="scope.row.status===1" type="text" size="small" @click="handleStop(scope.row)"
@@ -321,14 +330,26 @@ export default {
   async created() {
     this._queryParams = _.cloneDeep(this.queryParams);
     // console.log(this._queryParams);
-    this.composeId = this.$route.query.composeId;
-    console.log("composeId", this.composeId);
-    this.selectStockList = await this.optionSelectList();
+    // this.composeId = this.$route.query.composeId;
+    // console.log("composeId", this.composeId);
+    // this.selectStockList = await this.optionSelectList();
 
-    this.getList(1, 10);
+    // this.getList(1, 10);
   },
-  mounted() {},
+  mounted() {
+    this.$root.$on('onComposeSelected', id => {
+          console.log("refreshGridPlanList", id);
+          this.composeId = id;
+        
+          this.doLoadSelectList();
+          this.getList(1, 10);
+      })
+
+  },
   methods: {
+     async doLoadSelectList(){
+      this.selectStockList = await this.optionSelectList();
+    },
     async optionSelectList() {
       let query = {
         composeId: this.composeId,
@@ -374,8 +395,19 @@ export default {
       this.open = false;
       this.resetForm();
     },
-    handleDetail(row) {
-      
+    handleUpdate(row) {
+      this.open = true;
+      // this.$nextTick(() => {
+      //   this.resetForm();
+      // });
+
+      this.form = {
+        composeId: this.composeId,
+        ...row
+      };
+
+      // this.form.id = undefined;
+      this.title = "修改参数";
     },
     handleStart(row) {
       this.doStartPlan(row.id);
@@ -443,7 +475,11 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {},
-
+    handleNotifyMail(){
+      this.$router.push({
+        path: '/profile/index'
+      })
+    },
     handleTrade(data) {
       this.open = true;
       // this.$nextTick(() => {
@@ -507,6 +543,11 @@ export default {
         ...other,
       };
       let res = await getPlanList(data);
+      if(!res.data){
+        this.listLoading = false;
+        return
+      }
+      
       this.dataList = res.data.content;
       this.summaryProfit = res.data.summaryProfit;
       this.pageInfo.runningStatus = 0;

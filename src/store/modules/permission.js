@@ -105,7 +105,7 @@ function filterAsyncRouter(asyncRouterMap) {
 }
 
 const loadView = (view) => {
-  console.log("view", view);
+  // console.log("view", view);
   return (resolve) => require([`@/views/${view}/index`], resolve)
 }
 

@@ -134,6 +134,13 @@ import {
 } from "@/api/stock";
 
 export default {
+  name: "TradeList",
+  // props: {
+  //   composeId: {
+  //     type: String,
+  //     require: true
+  //   }
+  // },
   data() {
     return {
       updateTimePeroid:"",
@@ -161,16 +168,26 @@ export default {
       },
     };
   },
-  
+  mounted(){
+    this.$root.$on('onComposeSelected', id => {
+        console.log("refreshTradeList", id);
+        this.composeId = id;
+        this.doLoadSelectList();
+        this.getList(1, 10);
+    })
+  },
   async created() {
     this._queryParams = _.cloneDeep(this.queryParams);
     // console.log(this._queryParams);
-    this.composeId = this.$route.query.composeId
-    console.log("composeId",this.composeId)
+    // this.composeId = this.composeId;
+    // console.log("composeId",this.composeId)
     // this.selectStockList = await this.optionSelectList();
-    this.getList(1, 10);
+    // this.getList(1, 10);
   },
   methods: {
+    async doLoadSelectList(){
+      this.selectStockList = await this.optionSelectList();
+    },
     async stockSelectRemoteMethod(query) {
           //个人
         let params = {

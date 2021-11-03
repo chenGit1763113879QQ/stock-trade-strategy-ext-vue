@@ -37,7 +37,8 @@
 
       <el-table-column align="center" label="股票名称" width="160">
         <template slot-scope="scope">
-          {{ scope.row.stockName }} ({{ scope.row.stockCode }}) 
+         
+          <el-link type="primary" target="_blank" :href="'https://xueqiu.com/S/'+ scope.row.stockMarket + scope.row.stockCode"> {{ scope.row.stockName }} ({{ scope.row.stockCode }}) </el-link>
         </template>
       </el-table-column>
       
@@ -266,12 +267,17 @@ export default {
   async created() {
     this._queryParams = _.cloneDeep(this.queryParams);
     // console.log(this._queryParams);
-    this.composeId = this.$route.query.composeId
-    console.log("composeId",this.composeId)
-    this.getList(1, 10);
+    // this.composeId = this.$route.query.composeId
+    // console.log("composeId",this.composeId)
+    // this.getList(1, 10);
   },
-  mounted(){
- 
+   mounted(){
+     this.$root.$on('onComposeSelected', id => {
+          console.log("refreshStockList", id);
+          this.composeId = id;
+        
+          this.getList(1, 10);
+      })
   },
   methods: {
     async stockSelectRemoteMethod(query) {

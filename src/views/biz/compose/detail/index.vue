@@ -1,5 +1,85 @@
 <template>
   <div class="app-container">
+    <div>
+      <el-form
+        ref="queryForm"
+        :inline="true"
+        :model="composeInfo"
+        class="demo-form-inline"
+      >
+        <el-row>
+          <el-form-item label="组合" prop="composeId">
+            <el-select
+              v-model="composeInfo.id"
+              placeholder=""
+              clearable
+              filterable
+              size="small"
+              @change="onComposeSelected"
+            >
+              <el-option
+                v-for="(i, index) in selectComposeList"
+                :key="index"
+                :label="i.name"
+                :value="i.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-col :span="4">
+            <el-form-item label="总市值:" prop="capital">
+              <span :class="getTextPriceClass(composeInfo.profitMoney)" style="font-size:18px" >
+                {{ composeInfo.capital }}</span
+              >
+            </el-form-item>
+          </el-col>
+
+           <el-col :span="4">
+            <el-form-item label="浮动盈亏:">
+              <span :class="getTextPriceClass(composeInfo.profitMoney)"  style="font-size:18px">
+                {{ composeInfo.profitMoney }}({{
+                  composeInfo.profitPercent
+                }}%)</span
+              >
+            </el-form-item>
+          </el-col>
+         
+           <el-col :span="4">
+            <el-form-item label="初始总资产:">
+              <span>{{ composeInfo.initBalance }}</span>
+            </el-form-item>
+          </el-col>
+
+
+
+          <el-col :span="4">
+            <el-form-item label="现金:">
+              <span>{{ composeInfo.cash }}</span>
+            </el-form-item>
+          </el-col>
+
+
+
+           <el-col :span="4">
+            <el-form-item label="当前仓位:">
+              <span>{{ composeInfo.positionPercent }}%</span>
+            </el-form-item>
+          </el-col>
+
+         
+        </el-row>
+
+   
+        <!-- <el-form-item>
+          <el-button type="primary" @click="handleQuery">查询</el-button>
+        </el-form-item> -->
+
+        <!-- <el-form-item>
+          <el-button type="normal" @click="resetQuery">重置</el-button>
+        </el-form-item> -->
+      </el-form>
+    </div>
     <div class="panel">
       <!-- <el-row>
         <el-button type="primary" size="small" @click="addTab">
@@ -11,7 +91,8 @@
       </el-row> -->
 
       <el-tabs
-        style="margin-top: 15px"
+        ref="composeTab"
+        style="margin-top: 0px"
         v-model="editableTabsValue"
         @tab-click="handleClick"
       >
@@ -22,18 +103,19 @@
           :name="item.name"
           :closable="item.close"
         >
-          <component :is="item.content" :objId="item.name" ></component>
+          <component :is="item.content" :objId="item.name"></component>
         </el-tab-pane>
       </el-tabs>
     </div>
   </div>
 </template>
 <script>
-
 import stockList from "./stockList.vue";
 import gridPlanList from "./gridPlanList.vue";
 import dayPlanList from "./dayPlanList.vue";
 import tradeList from "./tradeList.vue";
+
+import { getDataList } from "@/api/compose";
 
 export default {
   components: {
@@ -44,7 +126,8 @@ export default {
   },
   data() {
     return {
-      editableTabsValue:"stockList",
+      selectComposeList: [],
+      editableTabsValue: "stockList",
       editableTabs: [
         {
           title: "持仓详情",
@@ -72,21 +155,56 @@ export default {
         },
       ],
       tabIndex: 0,
-      composeId: "",
+      composeInfo: {
+        id: "",
+        name: "",
+      },
+      // composeId: "",
+      // queryParams: {
+      //   composeId: "",
+      //   composeName: "",
+      // },
     };
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, event);
+    },
+    getTextPriceClass(price) {
+      console.log("price:", price);
+      if (!price || price == 0) return "text-normal";
+
+      return price > 0 ? "text-red" : "text-green";
+    },
+    async optionSelectList() {
+      let data = {
+        pageNum: 0,
+        pageSize: 1000,
+      };
+      let res = await getDataList(data);
+      return res.data.data;
+    },
+
+    onComposeSelected(value) {
+      let arr = this.selectComposeList.filter((item) => item.id === value);
+      if (arr && arr.length) {
+        let item = arr[0];
+        console.log(item);
+        // this.composeId = item.id;
+        this.composeInfo = item;
+        this.$root.$emit("onComposeSelected", this.composeInfo.id);
+        // this.form.stockCode = item.stockCode
+        // this.form.stockName = item.stockName
+        // this.form.basePrice = item.curPrice
+      }
     },
   },
-  created(){
-    this.composeId = this.$route.query.composeId;
-    if(!this.composeId){
-      this.composeId = "402880297ccf1b43017ccf1d18d00000"
-      this.$route.query.composeId = this.composeId
+  async created() {
+    this.selectComposeList = await this.optionSelectList();
+    if (this.selectComposeList && this.selectComposeList.length) {
+      this.composeInfo = this.selectComposeList[0];
+      this.$root.$emit("onComposeSelected", this.composeInfo.id);
     }
-    console.log(this.composeId)
-  }
+  },
 };
 </script>

@@ -90,17 +90,17 @@
 
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleDetail(scope.row)"
+          <!-- <el-button type="text" size="small" @click="handleDetail(scope.row)"
             >组合详情</el-button
-          >
+          > -->
           <el-button type="text" size="small" @click="handleUpdate(scope.row)"
             >修改</el-button
           >
-          <el-button
+          <!-- <el-button
             type="text"
             size="small"
             @click="enableOrDisableUser(scope.row)"
-            >删除</el-button>
+            >删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>
