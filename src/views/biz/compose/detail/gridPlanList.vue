@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div >
     <div>
       <el-form
         ref="queryForm"
@@ -110,10 +110,10 @@
 
       <el-table-column fixed="right" label="操作" >
         <template slot-scope="scope">
-          <!-- <el-button type="text" size="small" @click="handleDetail(scope.row)"
-            >详情</el-button> -->
-            <!-- <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleUpdate(scope.row)"
-            >修改参数</el-button> -->
+          <el-button type="text" size="small" @click="handleDetail(scope.row)"
+            >详情</el-button>
+            <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleUpdate(scope.row)"
+            >修改参数</el-button>
             <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleStart(scope.row)"
             >启动计划</el-button>
             <el-button v-if="scope.row.status===1" type="text" size="small" @click="handleStop(scope.row)"
@@ -134,8 +134,9 @@
       <div class="contain">
         <el-form ref="form" :model="form" :rules="rules" label-width="150px">
           <el-row>
-            <el-form-item label="股票" prop="stockCode" required>
+            <el-form-item label="股票" prop="stockCode" required >
               <el-select
+                :disabled='title==="修改参数"'
                 v-model="form.stockCode"
                 placeholder=""
                 clearable
@@ -160,8 +161,9 @@
           </el-row> -->
 
           <el-row>
-            <el-form-item label="初始基准价(￥)" prop="basePrice" required>
+            <el-form-item label="初始基准价(￥)" prop="basePrice" required >
               <el-input-number
+              :disabled='title==="修改参数"'
                 v-model="form.basePrice"
                 type="input"
                 placeholder="输入价格"
@@ -193,8 +195,9 @@
           </el-row>
 
           <el-row>
-            <el-form-item label="每笔数量(股)" prop="tradeStockNum" required>
+            <el-form-item label="每笔数量(股)" prop="tradeStockNum" required >
               <el-input-number
+                :disabled='title==="修改参数"'
                 v-model="form.tradeStockNum"
                 type="input"
                 placeholder="输入数量"
@@ -395,6 +398,18 @@ export default {
       this.open = false;
       this.resetForm();
     },
+    handleDetail(row){
+    this.$router.push({
+        name: "GridPlanDetail",
+        params: {
+          applyCode: row.id,
+        },
+        query: {
+          title:"网格计划详情",
+          planId: row.id
+        },
+      });
+    },
     handleUpdate(row) {
       this.open = true;
       // this.$nextTick(() => {
@@ -413,7 +428,7 @@ export default {
       this.doStartPlan(row.id);
     },
     handleStop(row) {
-      this.doStartPlan(row.id);
+      this.doStopPlan(row.id);
     },
     handleDelete(row) {
       let id = row.id;

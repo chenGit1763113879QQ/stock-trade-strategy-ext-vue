@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div >
     <div>
       <el-form
         ref="queryForm"
@@ -14,11 +14,12 @@
         <el-form-item style="margin-left: 20px">
           <el-button type="primary" @click="handleTrade">新建计划</el-button>
         </el-form-item>
-      </el-form>
+ 
 
       <el-form-item style="margin-left: 20px">
           <el-button type="primary" @click="handleNotifyMail">修改通知邮件</el-button>
         </el-form-item>
+    </el-form>
     </div>
 
   <div style="margin-bottom:10px">
@@ -364,6 +365,7 @@ export default {
   },
   async created() {
     this._queryParams = _.cloneDeep(this.queryParams);
+
     // console.log(this._queryParams);
     // this.composeId = this.$route.query.composeId;
     // console.log("composeId", this.composeId);
@@ -376,7 +378,7 @@ export default {
           console.log("refreshGridPlanList", id);
           this.composeId = id;
         
-          this.doLoadSelectList();
+      
           this.getList(1, 10);
       })
 
@@ -440,6 +442,7 @@ export default {
       this.resetForm();
     },
     handleUpdate(row) {
+      this.doLoadSelectList();
       this.open = true;
       // this.$nextTick(() => {
       //   this.resetForm();
@@ -521,6 +524,7 @@ export default {
     resetQuery() {},
 
     handleTrade(data) {
+        this.doLoadSelectList();
       this.open = true;
       // this.$nextTick(() => {
       //   this.resetForm();

@@ -8,6 +8,14 @@ export function savePlan(data) {
   })
 }
 
+export function getDetail(id) {
+  return request({
+    url: '/stock/tradePlan/grid/detail?id='+id,
+    method: 'get'
+  })
+}
+
+
 export function startPlan(id) {
   return request({
     url: '/stock/tradePlan/grid/start?id='+id,

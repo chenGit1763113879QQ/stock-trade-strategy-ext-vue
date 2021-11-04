@@ -171,7 +171,7 @@ export default {
       // console.log(tab, event);
     },
     getTextPriceClass(price) {
-      console.log("price:", price);
+      //console.log("price:", price);
       if (!price || price == 0) return "text-normal";
 
       return price > 0 ? "text-red" : "text-green";

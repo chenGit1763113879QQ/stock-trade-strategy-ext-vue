@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
 <div>
       <el-form
         ref="queryForm"
@@ -87,7 +87,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" >
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleTrade(scope.row)"
             >交易</el-button>

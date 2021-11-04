@@ -92,6 +92,22 @@ export const constantRoutes = [
      
     ]
   },
+  {
+    path: '/biz/compose/gridplan',
+    hidden: true,
+    component: Layout,
+    noCache: true,
+    redirect: 'noRedirect',
+    children: [
+      {
+        path: 'detail/:applyCode',
+        component: () => import('@/views/biz/compose/gridplan'),
+        name: 'GridPlanDetail',
+        meta: { title: '网格计划详情', icon: ''}
+      }
+     
+    ]
+  },
   // {
   //   path: '/s',
   //   component: Layout,

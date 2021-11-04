@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div >
     <div>
       <el-form
         ref="queryForm"
