@@ -146,7 +146,7 @@ export default {
       // this.image = resData.files.avatar
           //  console.log(resData);
      
-      let imageUrl = "/file/public/download?code=" + resData.connectId
+      let imageUrl = process.env.VUE_APP_BASE_API + "/file/public/download?code=" + resData.connectId
       this.doUpdateAvatar(imageUrl)
       this.image = imageUrl
     },
@@ -174,18 +174,19 @@ export default {
 
     // 邮箱验证
     getEmail() {
-      if (this.form.email) {
-        const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        let res = reg.test(this.form.email);
-        if (!res) {
-          this.form.email = null;
-          this.error = true;
-        } else {
-          this.error = false;
-        }
-      } else {
-        this.error = false;
-      }
+      // if (this.form.email) {
+      //   const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      //   let res = reg.test(this.form.email);
+      //   if (!res) {
+      //     this.form.email = null;
+      //     this.error = true;
+      //   } else {
+      //     this.error = false;
+      //   }
+      // } else {
+      //   this.error = false;
+      // }
+      this.error = false;
     },
 
     //修改邮箱

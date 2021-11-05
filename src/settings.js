@@ -1,5 +1,5 @@
 module.exports = {
-  title: '股票套利策略盯盘系统',
+  title: '股票套利策略V1.0',
 
   /**
    * @type {boolean} true | false

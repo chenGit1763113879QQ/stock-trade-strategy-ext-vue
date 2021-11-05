@@ -5,7 +5,7 @@
     <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="register-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">股票套利策略盯盘系统-注册</h3>
+        <h3 class="title">股票套利策略V1.0-注册</h3>
       </div>
 
       <el-form-item prop="username">
