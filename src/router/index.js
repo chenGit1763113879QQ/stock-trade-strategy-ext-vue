@@ -93,19 +93,24 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/biz/compose/gridplan',
+    path: '/biz/compose/plan',
     hidden: true,
     component: Layout,
     noCache: true,
     redirect: 'noRedirect',
     children: [
       {
-        path: 'detail/:applyCode',
+        path: 'gridplan/detail/:applyCode',
         component: () => import('@/views/biz/compose/gridplan'),
         name: 'GridPlanDetail',
-        meta: { title: '网格计划详情', icon: ''}
+        meta: { title: '网格交易计划详情', icon: ''}
+      },
+      {
+        path: 'dayplan/detail/:applyCode',
+        component: () => import('@/views/biz/compose/dayplan'),
+        name: 'DayPlanDetail',
+        meta: { title: '日内交易计划详情', icon: ''}
       }
-     
     ]
   },
   // {

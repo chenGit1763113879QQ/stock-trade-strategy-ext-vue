@@ -399,18 +399,19 @@ export default {
       this.resetForm();
     },
     handleDetail(row){
-    this.$router.push({
+      this.$router.push({
         name: "GridPlanDetail",
         params: {
           applyCode: row.id,
         },
         query: {
-          title:"网格计划详情",
+          title:"网格交易计划详情",
           planId: row.id
         },
       });
     },
     handleUpdate(row) {
+      this.doLoadSelectList();
       this.open = true;
       // this.$nextTick(() => {
       //   this.resetForm();
@@ -496,6 +497,7 @@ export default {
       })
     },
     handleTrade(data) {
+      this.doLoadSelectList();
       this.open = true;
       // this.$nextTick(() => {
       //   this.resetForm();

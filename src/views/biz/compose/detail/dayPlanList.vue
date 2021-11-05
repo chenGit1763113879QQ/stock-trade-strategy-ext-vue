@@ -86,7 +86,7 @@
        <el-table-column align="center" label="状态">
         <template slot-scope="scope">
           <!-- 未启动0，交易中1，已停止2 -->
-          <span v-if="scope.row.status===1" class="text-warning">交易中</span>
+          <span v-if="scope.row.status===1" class="text-green">交易中</span>
           <span v-if="scope.row.status===0" class="text-normal">未启动</span>
           <span v-if="scope.row.status===2" class="text-normal">已停止</span>
 
@@ -107,10 +107,10 @@
 
       <el-table-column fixed="right" label="操作" >
         <template slot-scope="scope">
-          <!-- <el-button type="text" size="small" @click="handleDetail(scope.row)"
-            >详情</el-button> -->
-            <!-- <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleUpdate(scope.row)"
-            >修改参数</el-button> -->
+          <el-button type="text" size="small" @click="handleDetail(scope.row)"
+            >详情</el-button>
+            <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleUpdate(scope.row)"
+            >修改参数</el-button>
             <el-button  v-if="scope.row.status===0 || scope.row.status===2" type="text" size="small" @click="handleStart(scope.row)"
             >启动计划</el-button>
             <el-button v-if="scope.row.status===1" type="text" size="small" @click="handleStop(scope.row)"
@@ -133,6 +133,7 @@
           <el-row>
             <el-form-item label="股票" prop="stockCode" required>
               <el-select
+              :disabled='title==="修改参数"'
                 v-model="form.stockCode"
                 placeholder=""
                 clearable
@@ -214,6 +215,7 @@
           <el-row>
             <el-form-item label="每笔数量(股)" prop="tradeStockNum" required>
               <el-input-number
+              :disabled='title==="修改参数"'
                 v-model="form.tradeStockNum"
                 type="input"
                 placeholder="输入数量"
@@ -441,8 +443,21 @@ export default {
       this.open = false;
       this.resetForm();
     },
+    handleDetail(row) {
+      this.$router.push({
+        name: "DayPlanDetail",
+        params: {
+          applyCode: row.id,
+        },
+        query: {
+          title:"日内交易计划详情",
+          planId: row.id
+        },
+      });
+    },
     handleUpdate(row) {
       this.doLoadSelectList();
+      // this.doLoadSelectList();
       this.open = true;
       // this.$nextTick(() => {
       //   this.resetForm();
@@ -460,7 +475,7 @@ export default {
       this.doStartPlan(row.id);
     },
     handleStop(row) {
-      this.doStartPlan(row.id);
+      this.doStopPlan(row.id);
     },
     handleDelete(row) {
       let id = row.id;

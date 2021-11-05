@@ -45,6 +45,12 @@
             </el-form-item>
           </el-col>
          
+          <el-col :span="4">
+            <el-form-item label="总资产:">
+              <span>{{ composeInfo.balance }}</span>
+            </el-form-item>
+          </el-col>
+          
            <el-col :span="4">
             <el-form-item label="初始总资产:">
               <span>{{ composeInfo.initBalance }}</span>
@@ -52,7 +58,7 @@
           </el-col>
 
 
-
+         
           <el-col :span="4">
             <el-form-item label="现金:">
               <span>{{ composeInfo.cash }}</span>

@@ -30,13 +30,13 @@
 
          <el-row>
           <el-col :span="4">
-            <el-form-item label="下次低吸金额:">
+            <el-form-item label="下次买入金额:">
               <span class="text-green">{{ planInfo.nextBuyPrice }}</span>
             </el-form-item>
           </el-col>
 
           <el-col :span="4">
-            <el-form-item label="下次高抛金额:">
+            <el-form-item label="下次卖出金额:">
               <span class="text-red">{{ planInfo.nextSellPrice }}</span>
             </el-form-item>
           </el-col>
@@ -70,21 +70,28 @@
         </el-row> -->
 
         <el-row>
+        
           <el-col :span="4">
-            <el-form-item label="基准价:">
-              <span>{{ planData.basePrice }}</span>
+            <el-form-item label="监控提醒上涨幅度:">
+              <span>{{ planData.monitorIncreasePer }}%</span>
             </el-form-item>
           </el-col>
 
           <el-col :span="4">
-            <el-form-item label="高抛:">
-              <span>{{ planData.increasePer }}%</span>
+            <el-form-item label="监控提醒下跌幅度:">
+              <span>{{ planData.monitorDecreasePer }}%</span>
+            </el-form-item>
+          </el-col>
+
+              <el-col :span="4">
+            <el-form-item label="上涨卖出幅度:">
+              <span>{{ planData.tradeIncreasePer }}%</span>
             </el-form-item>
           </el-col>
 
           <el-col :span="4">
-            <el-form-item label="低吸:">
-              <span>{{ planData.decreasePer }}%</span>
+            <el-form-item label="下跌买入幅度:">
+              <span>{{ planData.tradeDecreasePer }}%</span>
             </el-form-item>
           </el-col>
 
@@ -153,7 +160,7 @@
 import profitList from "./profitList.vue";
 import tradeList from "./tradeList.vue";
 
-import { getDetail } from "@/api/gridplan";
+import { getDetail } from "@/api/dayplan";
 
 export default {
   components: {
