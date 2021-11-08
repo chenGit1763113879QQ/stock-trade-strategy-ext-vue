@@ -62,7 +62,7 @@
       </el-table-column>
       <el-table-column align="center" label="监控提醒上涨/下跌">
         <template slot-scope="scope">
-          <span > {{ scope.row.tradeIncreasePer }}/{{ scope.row.tradeDecreasePer }}</span>
+          <span > {{ scope.row.monitorIncreasePer }}/{{ scope.row.monitorDecreasePer }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="交易上涨/下跌">
