@@ -88,7 +88,21 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="6">
+          <el-col :span="4">
+            <el-form-item label="筹码锁定(股):">
+              <span>{{ formatVal(planData.lockStockNum) }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="4">
+            <el-form-item label="价格区间:">
+              <span>{{ formatVal(planData.lowPriceVal) }} - {{ formatVal(planData.highPriceVal) }}</span>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="4">
             <el-form-item label="创建时间:">
               <span>{{ planData.createTime }}</span>
             </el-form-item>
@@ -109,7 +123,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
        
         <!-- <el-form-item>
           <el-button type="primary" @click="handleQuery">查询</el-button>
@@ -201,6 +214,10 @@ export default {
   },
   methods: {
     handleClick(tab, event) {},
+    formatVal(val){
+      if(!val) return ""
+      return val
+    },
     getTextPriceClass(price) {
       //console.log("price:", price);
       if (!price || price == 0) return "text-normal";
