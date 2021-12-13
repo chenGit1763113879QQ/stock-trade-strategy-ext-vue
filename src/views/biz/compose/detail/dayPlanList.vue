@@ -380,7 +380,7 @@ export default {
           console.log("refreshGridPlanList", id);
           this.composeId = id;
         
-      
+          this.resetList();
           this.getList(1, 10);
       })
 
@@ -592,7 +592,13 @@ export default {
         this.getList(1, this.pageInfo.pageSize);
       });
     },
-
+    resetList(){
+      this.dataList = [];
+      this.summaryProfit = 0;
+      this.pageInfo.runningStatus = 0;
+      this.pageInfo.total = 0;
+      this.pageInfo.runningStatus = 0;  
+    },
     /** 查询列表 */
     async getList(index, size, other = {}) {
       this.listLoading = true;

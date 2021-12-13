@@ -275,11 +275,16 @@ export default {
      this.$root.$on('onComposeSelected', id => {
           console.log("refreshStockList", id);
           this.composeId = id;
-        
+          this.resetList();
           this.getList(1, 10);
       })
   },
   methods: {
+     resetList(){
+      this.dataList = [];
+      this.summaryProfit = 0;
+      this.pageInfo.total = 0;
+    },
     async stockSelectRemoteMethod(query) {
           //个人
         let params = {

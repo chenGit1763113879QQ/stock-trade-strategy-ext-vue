@@ -172,11 +172,14 @@ export default {
     this.$root.$on('onComposeSelected', id => {
         console.log("refreshTradeList", id);
         this.composeId = id;
+        this.resetList();
         this.doLoadSelectList();
         this.getList(1, 10);
     })
   },
+  
   async created() {
+    
     this._queryParams = _.cloneDeep(this.queryParams);
     // console.log(this._queryParams);
     // this.composeId = this.composeId;
@@ -185,6 +188,12 @@ export default {
     // this.getList(1, 10);
   },
   methods: {
+     resetList(){
+      this.dataList = [];
+      this.summaryProfit = 0;
+      this.pageInfo.total = 0;
+      this.pageInfo.runningStatus = 0;  
+    },
     async doLoadSelectList(){
       this.selectStockList = await this.optionSelectList();
     },

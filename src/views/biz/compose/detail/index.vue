@@ -8,20 +8,18 @@
         class="demo-form-inline"
       >
         <el-row>
-          <el-form-item label="组合" prop="composeId">
+          <el-form-item label="组合" >
             <el-select
-              v-model="composeInfo.id"
+              v-model="queryForm.composeId"
               placeholder=""
-              clearable
-              filterable
               size="small"
               @change="onComposeSelected"
             >
               <el-option
-                v-for="(i, index) in selectComposeList"
-                :key="index"
-                :label="i.name"
-                :value="i.id"
+                v-for="item in selectComposeList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               />
             </el-select>
           </el-form-item>
@@ -165,11 +163,12 @@ export default {
         id: "",
         name: "",
       },
+
       // composeId: "",
-      // queryParams: {
-      //   composeId: "",
-      //   composeName: "",
-      // },
+      queryForm: {
+        composeId: "",
+        composeName: "",
+      },
     };
   },
   methods: {
@@ -192,6 +191,7 @@ export default {
     },
 
     onComposeSelected(value) {
+      console.log("value:" + value);
       let arr = this.selectComposeList.filter((item) => item.id === value);
       if (arr && arr.length) {
         let item = arr[0];
@@ -209,6 +209,8 @@ export default {
     this.selectComposeList = await this.optionSelectList();
     if (this.selectComposeList && this.selectComposeList.length) {
       this.composeInfo = this.selectComposeList[0];
+      this.queryForm.composeId = this.composeInfo.id;
+      this.queryForm.composeName = this.composeInfo.name;
       this.$root.$emit("onComposeSelected", this.composeInfo.id);
     }
   },

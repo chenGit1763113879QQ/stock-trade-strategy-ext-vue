@@ -343,13 +343,21 @@ export default {
     this.$root.$on('onComposeSelected', id => {
           console.log("refreshGridPlanList", id);
           this.composeId = id;
-        
+          
+          this.resetList();
           this.doLoadSelectList();
           this.getList(1, 10);
       })
 
   },
   methods: {
+     resetList(){
+      this.dataList = [];
+      this.summaryProfit = 0;
+      this.pageInfo.runningStatus = 0;
+      this.pageInfo.total = 0;
+      this.pageInfo.runningStatus = 0;  
+    },
      async doLoadSelectList(){
       this.selectStockList = await this.optionSelectList();
     },
